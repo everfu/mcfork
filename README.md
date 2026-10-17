@@ -6,7 +6,9 @@
 
 适合想控制一餐预算、又有明确口味偏好的消费者，也适合在支持 Skill 的 AI 客户端里用自然语言比较餐单。**只需要麦当劳 MCP Token，不需要地图 Key 或额外 AI API Key。**
 
-![桌面预览](docs/media/desktop.png)
+![开始比较前的布局](docs/media/desktop-ready.png)
+
+![桌面比较结果](docs/media/desktop.png)
 
 ![方案切换演示](docs/media/demo.gif)
 
@@ -42,7 +44,7 @@ npm start
 
 门店信息通过 `query-nearby-stores` 查询，不使用第三方地图，不估计通勤耗时。实时核价示例及 traceId 见 [脱敏验证证据](evidence/mcp-live-verification.json)；它只证明记录中时间与门店的调用成功，不代表未来价格或全城覆盖。
 
-界面使用 [HeroUI v3](https://heroui.com/en/docs/react/getting-started) 的 Select、Modal、Button、Input 和 Spinner，参考[麦当劳开放平台](https://open.mcd.cn/)的深蓝、金黄与白色设计，采用简洁的餐品列表和统一表单组件。城市目录当前收录 37 个常用城市，商圈为项目维护的地点关键词（`shared/districts.ts`），并非官方完整商圈列表；未列出的地点可在商圈下拉框选择「其他地点」输入。切换城市会清空旧商圈和门店结果，过期查询不会覆盖新选择。演示仅提供杭州武林广场门店快照，其他地点需实时模式。
+界面使用 [HeroUI v3](https://heroui.com/en/docs/react/getting-started) 的 Select、Modal、Button、Input 和 Spinner，参考[麦当劳开放平台](https://open.mcd.cn/)的深蓝、金黄与白色设计，采用左侧编辑、右侧比较的布局，比较前收起空方案、差异与导出区域；选店和预算控件保持对齐。城市目录当前收录 37 个常用城市，商圈为项目维护的地点关键词（`shared/districts.ts`），并非官方完整商圈列表；未列出的地点可在商圈下拉框选择「其他地点」输入。切换城市会清空旧商圈和门店结果，过期查询不会覆盖新选择。演示仅提供杭州武林广场门店快照，其他地点需实时模式。
 
 ## 网页与 Skill
 

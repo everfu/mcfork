@@ -43,18 +43,43 @@ test('desktop: real store snapshot, alternatives, adoption, PNG export and cart 
   await page.getByRole('dialog').getByRole('button', { name: '关闭窗口' }).click();
   expect(errors).toEqual([]);
 });
+test('uncomputed layout stays compact and loading feedback never shifts the budget control', async ({ page }) => {
+  await page.goto('/');
+  await expect(page.locator('.variant')).toHaveCount(2);
+  await page.getByLabel('预算金额', { exact: true }).fill('49');
+  await expect(page.getByRole('region', { name: '开始比较', exact: true })).toBeVisible();
+  await expect(page.getByRole('complementary', { name: '这次改了什么' })).toHaveCount(0);
+  await expect(page.getByRole('region', { name: '本轮对比' })).toHaveCount(0);
+  await expect(page.getByRole('button', { name: '导出对比小票', exact: true })).toHaveCount(0);
+  expect((await page.locator('.results-intro').boundingBox())!.height).toBeLessThan(320);
+  await page.screenshot({ path: `${evidence}/desktop-ready.png`, fullPage: true });
+  const controlTops = async () => page.locator('.city-select button, .district-select button, .store-selector, .budget-input').evaluateAll(elements => elements.map(element => element.getBoundingClientRect().top));
+  const before = await controlTops();
+  expect(Math.max(...before) - Math.min(...before)).toBeLessThan(2);
+  await page.locator('.city-select button').click();
+  await page.getByRole('option', { name: '北京', exact: true }).click();
+  await expect(page.locator('.location-feedback')).toContainText('请选择商圈');
+  await page.locator('.district-select button').click();
+  await page.getByRole('option', { name: '王府井', exact: true }).click();
+  await expect(page.locator('.location-feedback')).toContainText('暂无演示快照');
+  const after = await controlTops();
+  expect(Math.max(...after) - Math.min(...after)).toBeLessThan(2);
+  expect(after).toEqual(before);
+  await expect(page.locator('.location-popover')).toHaveCount(0);
+  expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations).toEqual([]);
+});
 test('budget failure and all locks are explained without inventing alternatives', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('.variant')).toHaveCount(2);
   await page.getByLabel('预算金额', { exact: true }).fill('1');
   await page.getByRole('button', { name: '开始比较餐单' }).click();
   await expect(page.locator('.variant')).toHaveCount(0);
-  await expect(page.getByRole('region', { name: '少改一项方案' })).toContainText('未找到');
+  await expect(page.getByRole('region', { name: '比较结果' })).toContainText('未找到');
   await page.getByLabel('预算金额', { exact: true }).fill('48');
   await page.getByRole('button', { name: '锁定薯条', exact: true }).click();
   await page.getByRole('button', { name: '锁定浓浓黑巧（冰/热）', exact: true }).click();
   await page.getByRole('button', { name: '开始比较餐单' }).click();
-  await expect(page.getByRole('region', { name: '少改一项方案' })).toContainText('全部锁定');
+  await expect(page.getByRole('region', { name: '比较结果' })).toContainText('全部锁定');
   await expect(page.getByRole('region', { name: '我的原餐单' })).toContainText('麦辣鸡腿汉堡');
 });
 for (const width of [390, 320]) test(`responsive ${width}px: usable controls and no page overflow`, async ({ page }) => {
@@ -66,6 +91,11 @@ for (const width of [390, 320]) test(`responsive ${width}px: usable controls and
   await page.getByRole('region', { name: '多省一点方案' }).getByRole('button', { name: '采用这份', exact: true }).click();
   await expect(page.getByRole('region', { name: '多省一点方案' }).getByRole('button', { name: '已采用这份' })).toBeVisible();
   await page.screenshot({ path: `${evidence}/mobile-${width}.png`, fullPage: true });
+  expect((await page.getByLabel('预算金额', { exact: true }).boundingBox())!.width).toBeGreaterThan(30);
+  await page.getByLabel('预算金额', { exact: true }).fill('49');
+  await expect(page.getByRole('region', { name: '开始比较', exact: true })).toBeVisible();
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= window.innerWidth)).toBe(true);
+  await page.screenshot({ path: `${evidence}/mobile-ready-${width}.png`, fullPage: true });
   await page.getByRole('button', { name: '修改原餐单 ›' }).click();
   await expect(page.getByRole('dialog')).toBeVisible();
   expect(await page.getByRole('dialog').evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);

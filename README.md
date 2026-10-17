@@ -92,4 +92,6 @@ npm run inspect:mcp  # 查看四个实际工具的参数定义
 
 项目含官方原样 `CONTEST_DECLARATION.md`、`MCP_INTEGRATION.md`、仅有环境变量占位符的 `mcp-config.example.json` 和可运行源代码。[报名内容与提交记录](docs/SUBMISSION.md)。
 
+已提交官方活动仓库：[参赛申请 #823](https://github.com/M-China/mcd-developer-innovation-challenge/issues/823)。校验状态以官方 Issue 回复为准。
+
 未使用 WorkBuddy 开发，因此不提供虚构的 `workbuddy.md`。作品为独立参赛项目，非麦当劳官方产品。原创代码采用 MIT 许可。官方声明、菜单数据及图片、第三方依赖遵循其各自的使用规则；图片仅用于餐品信息展示，不作品牌授权或官方背书声明。

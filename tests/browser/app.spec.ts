@@ -71,7 +71,7 @@ for (const width of [390, 320]) test(`responsive ${width}px: usable controls and
   expect(await page.getByRole('dialog').evaluate(el => el.scrollWidth <= el.clientWidth)).toBe(true);
   await page.getByRole('dialog').getByRole('button', { name: '关闭窗口' }).click();
   await page.locator('.city-select button').click();
-  const box = await page.locator('.glass-popover').boundingBox();
+  const box = await page.locator('.location-popover').boundingBox();
   expect(box && box.x >= 0 && box.x + box.width <= width).toBe(true);
   await page.getByRole('option', { name: '北京', exact: true }).click();
   await page.locator('.district-select button').click();
@@ -93,6 +93,34 @@ test('keyboard can open and dismiss help with focus restored', async ({ page }) 
   await expect(page.getByRole('dialog')).not.toBeVisible();
   await expect(page.getByRole('button', { name: '使用说明' })).toBeFocused();
 });
+test('product screens and exported receipt contain no competition prompts', async ({ page }) => {
+  await page.addInitScript(() => {
+    const lines: string[] = [];
+    Object.defineProperty(window, 'receiptDrawnText', { value: lines });
+    const fillText = CanvasRenderingContext2D.prototype.fillText;
+    CanvasRenderingContext2D.prototype.fillText = function (text, x, y, maxWidth) {
+      lines.push(text);
+      fillText.call(this, text, x, y, maxWidth);
+    };
+  });
+  await page.goto('/');
+  await expect(page.locator('.variant')).toHaveCount(2);
+  const forbidden = /参赛|比赛|赛事|作品/;
+  await expect(page.locator('body')).not.toContainText(forbidden);
+  await expect(page.locator('a[href*="mcd-developer-innovation-challenge"]')).toHaveCount(0);
+  for (const name of ['使用说明', '修改原餐单 ›', '选择真实门店', '演示试算']) {
+    await page.getByRole('button', { name, exact: true }).click();
+    await expect(page.getByRole('dialog')).toBeVisible();
+    await expect(page.getByRole('dialog')).not.toContainText(forbidden);
+    await page.getByRole('dialog').getByRole('button', { name: '关闭窗口' }).click();
+  }
+  const download = page.waitForEvent('download');
+  await page.getByRole('button', { name: '导出对比小票', exact: true }).click();
+  await download;
+  const lines: string[] = await page.evaluate(() => Reflect.get(window, 'receiptDrawnText'));
+  expect(lines).toContain('演示试算 · 非官方核价');
+  expect(lines.join('\n')).not.toMatch(forbidden);
+});
 test('city selection loads area choices and demo empty results never reuse a previous store', async ({ page }) => {
   await page.goto('/');
   await expect(page.locator('.district-select button')).toBeEnabled();
@@ -108,6 +136,7 @@ test('city selection loads area choices and demo empty results never reuse a pre
   await expect(page.getByRole('dialog', { name: '选一家真实门店' })).toContainText('北京 · 王府井');
   await expect(page.getByRole('dialog', { name: '选一家真实门店' }).locator('.store-option')).toHaveCount(0);
   await expect(page.getByRole('dialog', { name: '选一家真实门店' })).toContainText('暂无演示快照');
+  await expect(page.locator('.modal__backdrop[data-entering], .modal__container[data-entering]')).toHaveCount(0);
   expect((await new AxeBuilder({ page }).withTags(['wcag2a', 'wcag2aa', 'wcag21aa']).analyze()).violations).toEqual([]);
 });
 test('live area selection auto-loads stores and discards a slow previous query', async ({ page }) => {

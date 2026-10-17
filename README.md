@@ -42,7 +42,7 @@ npm start
 
 门店信息通过 `query-nearby-stores` 查询，不使用第三方地图，不估计通勤耗时。实时核价示例及 traceId 见 [脱敏验证证据](evidence/mcp-live-verification.json)；它只证明记录中时间与门店的调用成功，不代表未来价格或全城覆盖。
 
-界面使用 [HeroUI v3](https://heroui.com/en/docs/react/getting-started) 的 Select、Modal、Button、Input 和 Spinner，采用暖色渐变、磨砂玻璃与高对比文字。城市目录当前收录 37 个常用城市，商圈为项目维护的地点关键词（`shared/districts.ts`），并非官方完整商圈列表；未列出的地点可在商圈下拉框选择「其他地点」输入。切换城市会清空旧商圈和门店结果，过期查询不会覆盖新选择。演示仅提供杭州武林广场门店快照，其他地点需实时模式。
+界面使用 [HeroUI v3](https://heroui.com/en/docs/react/getting-started) 的 Select、Modal、Button、Input 和 Spinner，参考[麦当劳开放平台](https://open.mcd.cn/)的深蓝、金黄与白色设计，采用简洁的餐品列表和统一表单组件。城市目录当前收录 37 个常用城市，商圈为项目维护的地点关键词（`shared/districts.ts`），并非官方完整商圈列表；未列出的地点可在商圈下拉框选择「其他地点」输入。切换城市会清空旧商圈和门店结果，过期查询不会覆盖新选择。演示仅提供杭州武林广场门店快照，其他地点需实时模式。
 
 ## 网页与 Skill
 

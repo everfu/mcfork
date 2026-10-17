@@ -36,6 +36,6 @@ export function receiptText(store: Store, comparison: Comparison, variant: Varia
     ...variant.quote.items.map(item => `${item.name} ×${item.quantity}  ¥${yuan(item.subtotalCents)}`),
     `合计 ¥${yuan(variant.quote.priceCents)}`, `与原餐单相比节省 ¥${yuan(comparison.original.quote.priceCents - variant.quote.priceCents)}`,
     ...variant.changes.map(change => `${change.from.name} → ${change.to.name} ×${change.quantity}`),
-    '', '仅适用于本店当次查询，不保证后续价格及供应。', '独立参赛作品，非麦当劳官方产品。',
+    '', '仅适用于本店当次查询，不保证后续价格及供应。',
   ].join('\n');
 }

@@ -104,6 +104,6 @@ test('incomplete combo defaults are rejected, valid defaults retain round IDs',(
 test('receipt exports only public store, cart and price fields',async()=>{
  const result=await compareMeal(request,meals,price);
  const text=receiptText({id:'store',name:'真实门店',address:'公开地址'},result,result.alternatives[0]);
- assert.match(text,/真实门店/);assert.match(text,/演示试算/);assert.doesNotMatch(text,/traceId|Authorization|Token|MCD_MCP/);
+ assert.match(text,/真实门店/);assert.match(text,/演示试算/);assert.doesNotMatch(text,/traceId|Authorization|Token|MCD_MCP|参赛|比赛|赛事|作品/);
 });
 test('write tools are absent from the MCP allowlist',()=>{assert.deepEqual([...allowedTools].sort(),['calculate-price','query-meal-detail','query-meals','query-nearby-stores'].sort());});

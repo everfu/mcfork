@@ -6,6 +6,8 @@
 
 适合想控制一餐预算、又有明确口味偏好的消费者，也适合在支持 Skill 的 AI 客户端里用自然语言比较餐单。**只需要麦当劳 MCP Token，不需要地图 Key 或额外 AI API Key。**
 
+**[在线体验](https://everfu.github.io/mcfork/)**：GitHub Pages 公开版使用真实门店与菜单快照，在浏览器本地演示试算，不连接账户。实时门店查询与官方核价请在本机运行。
+
 ![开始比较前的布局](docs/media/desktop-ready.png)
 
 ![桌面比较结果](docs/media/desktop.png)
@@ -33,6 +35,10 @@ npm start
 ```
 
 服务器固定监听 `127.0.0.1`。`PORT` 可修改本机端口；访问时使用 `127.0.0.1`，避免与其他项目的 localhost 预览混淆。
+
+## GitHub Pages 部署
+
+推送到 `main` 后，[发布工作流](.github/workflows/pages.yml)会安装依赖、运行决策测试并构建网页，只发布 `dist` 目录。仓库 Pages 来源设为 GitHub Actions；部署不需要配置麦当劳 Token 或其他密钥。本机服务、环境变量文件和账户凭据不会部署到公开站点。
 
 ## 体验流程
 

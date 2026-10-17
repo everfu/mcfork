@@ -29,7 +29,7 @@ export function StorePicker({ mode, open, disabled, store, onOpen, onChoose, onC
       try {
         const response = mode === 'demo'
           ? { stores: demoStores.filter(value => city === '杭州' && `${value.name}${value.address}武林广场`.includes(keyword)) }
-          : await api<StoresResponse>('/api/stores', { mode, city, keyword }, controller.signal);
+          : await api<StoresResponse>('/api/stores', { mode, city, keyword }, { signal: controller.signal });
         if (!controller.signal.aborted) { setStores(response.stores); setSearched(true); }
       } catch (error) { if (!controller.signal.aborted) setError((error as Error).message); }
       finally { if (!controller.signal.aborted) setBusy(false); }
@@ -70,7 +70,7 @@ export function MenuPicker({ mode, store, meals, cart, onChange, onClose }: { mo
   useEffect(() => () => { alive.current = false; }, []);
   async function inspect(meal: Meal) {
     let value = details.current.get(meal.code);
-    if (!value) { value = mode === 'demo' ? { code: meal.code, name: meal.name, configurable: true, supportModify: false, defaults: [], note: '菜单快照，正式搭配以实时查询为准' } : await api<MealDetail>(`/api/detail?${new URLSearchParams({ mode, storeId: store.id, code: meal.code })}`); details.current.set(meal.code, value); }
+    if (!value) { value = mode === 'demo' ? { code: meal.code, name: meal.name, configurable: true, supportModify: false, defaults: [], note: '菜单快照，正式搭配以实时查询为准' } : await api<MealDetail>(`/api/detail?${new URLSearchParams({ mode, storeId: store.id, code: meal.code })}`, undefined, { selectionToken: store.selectionToken }); details.current.set(meal.code, value); }
     return value;
   }
   async function add(meal: Meal) {

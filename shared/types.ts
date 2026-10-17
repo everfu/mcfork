@@ -1,6 +1,6 @@
 export type Mode = 'demo' | 'live';
 export type Family = 'main' | 'side' | 'drink';
-export interface Store { id: string; name: string; address: string; opens?: string; closes?: string; suspended?: boolean }
+export interface Store { id: string; name: string; address: string; opens?: string; closes?: string; suspended?: boolean; selectionToken?: string }
 export interface Meal { code: string; name: string; category: string; priceCents?: number; image?: string; family?: Family }
 export interface MealDetail { code: string; name: string; configurable: boolean; supportModify: boolean; defaults: string[]; note?: string }
 export interface CartItem { productCode: string; quantity: number; locked?: boolean }

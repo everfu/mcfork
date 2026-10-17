@@ -4,7 +4,8 @@
     "lib": [
       "ES2023",
       "DOM",
-      "DOM.Iterable"
+      "DOM.Iterable",
+      "DOM.AsyncIterable"
     ],
     "module": "ESNext",
     "moduleResolution": "Bundler",
@@ -22,6 +23,7 @@
   "include": [
     "src",
     "server",
+    "netlify/functions",
     "shared",
     "tests",
     "scripts",

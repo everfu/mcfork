@@ -5,7 +5,7 @@ import { receiptText, yuan } from '../shared/types.ts';
 import { quoteSchema } from '../shared/validation.ts';
 import { compareMeal } from '../shared/engine.ts';
 import { demoMeals, demoQuote, demoStores, initialCart, snapshotAt } from '../shared/demo.ts';
-import { api } from './api.ts';
+import { api, apiBase } from './api.ts';
 import { Dialog, FoodImage, MenuPicker, StorePicker } from './Dialogs.tsx';
 import { Icon } from './icons.tsx';
 
@@ -20,10 +20,19 @@ export function App() {
   const byCode = new Map(meals.map(meal => [meal.code, meal]));
   useEffect(() => {
     if (initialized.current) return; initialized.current = true;
-    if (['127.0.0.1', 'localhost'].includes(location.hostname)) {
-      api<AppConfig>('/api/config').then(config => { setConfig(config); if (config.liveAvailable) void activate('live'); else void computeDemo(); }).catch(() => { void computeDemo(); });
+    if (apiBase || ['127.0.0.1', 'localhost'].includes(location.hostname)) {
+      api<AppConfig>('/api/config').then(config => {
+        setConfig(config);
+        if (config.liveAvailable) void activate('live');
+        else if (apiBase) connectionFailed();
+        else void computeDemo();
+      }).catch(() => { if (apiBase) connectionFailed(); else void computeDemo(); });
     } else void computeDemo();
   }, []);
+  function connectionFailed() {
+    setMode('live'); setStore(undefined); setCart([]); setMeals([]); setComparison(undefined);
+    setError('实时服务暂不可用。请稍后重试，或点击顶部按钮切换演示试算。');
+  }
   useEffect(() => { if (!toast) return; const timer = setTimeout(() => setToast(''), 4500); return () => clearTimeout(timer); }, [toast]);
   async function computeDemo() {
     const request: QuoteRequest = { mode: 'demo', storeId: demoStores[0].id, budgetCents: 4800, items: initialCart(demoMeals) };
@@ -34,7 +43,7 @@ export function App() {
     const id = ++generation.current;
     setBusy('store'); setError(''); setComparison(undefined); setCart([]); setMeals([]); setStore(next); setMode(nextMode); setDialog(undefined);
     try {
-      const response = nextMode === 'demo' ? { meals: demoMeals } : await api<MenuResponse>(`/api/menu?${new URLSearchParams({ mode: nextMode, storeId: next.id })}`);
+      const response = nextMode === 'demo' ? { meals: demoMeals } : await api<MenuResponse>(`/api/menu?${new URLSearchParams({ mode: nextMode, storeId: next.id })}`, undefined, { selectionToken: next.selectionToken });
       if (id !== generation.current) return;
       setMeals(response.meals); setCart(initialCart(response.meals)); setSelected('original');
     } catch (error) { if (id === generation.current) setError((error as Error).message); }
@@ -60,7 +69,7 @@ export function App() {
     const id = ++generation.current;
     setBusy('compare'); setError(''); setComparison(undefined);
     try {
-      const result = mode === 'demo' ? await compareMeal(parsed.data, meals, async request => demoQuote(request)) : await api<Comparison>('/api/compare', parsed.data);
+      const result = await compareMeal(parsed.data, meals, mode === 'demo' ? async request => demoQuote(request) : request => api('/api/quote', request, { selectionToken: store.selectionToken }));
       if (id !== generation.current) return;
       setComparison(result); setSelected(result.alternatives[0]?.id ?? 'original');
       setToast(result.alternatives.length ? `比较完成，找到 ${result.alternatives.length} 份预算内的替代餐单。` : '本轮比较已完成，请查看结果说明。');

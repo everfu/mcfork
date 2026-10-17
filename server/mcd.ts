@@ -12,7 +12,7 @@ export class ServiceError extends Error {
   constructor(message: string, status = 502) { super(message); this.status = status; }
 }
 export async function mcdClient() {
-  if (!process.env.MCD_MCP_TOKEN) throw new ServiceError('请先在本机配置 MCD_MCP_TOKEN', 503);
+  if (!process.env.MCD_MCP_TOKEN) throw new ServiceError('实时服务暂未配置麦当劳凭据', 503);
   if (!connection) connection = (async () => {
     const client = new Client({ name: 'mcfork', version: '0.1.0' });
     const transport = new StreamableHTTPClientTransport(new URL('https://mcp.mcd.cn'), {
@@ -20,7 +20,7 @@ export async function mcdClient() {
       fetch: async (url, init) => {
         try {
           const response = await fetch(url, { ...init, redirect: 'error', signal: AbortSignal.any([...(init?.signal ? [init.signal] : []), AbortSignal.timeout(20000)]) });
-          if (response.status === 401 || response.status === 403) throw new ServiceError('麦当劳凭据失效或权限不足，请在本机更新', 401);
+          if (response.status === 401 || response.status === 403) throw new ServiceError('麦当劳凭据失效或权限不足，请联系维护者更新', 401);
           if (response.status === 429) throw new ServiceError('麦当劳接口限流，请稍后重试', 429);
           return response;
         } catch (error) {
@@ -38,7 +38,7 @@ export async function mcdClient() {
       await client.close().catch(() => {});
       connection = undefined;
       if (error instanceof ServiceError) throw error;
-      throw new ServiceError('无法建立麦当劳 MCP 连接，请检查本机凭据与网络');
+      throw new ServiceError('无法建立麦当劳 MCP 连接，请检查服务凭据与网络');
     }
   })();
   return connection;

@@ -6,7 +6,7 @@
 
 适合想控制一餐预算、又有明确口味偏好的消费者，也适合在支持 Skill 的 AI 客户端里用自然语言比较餐单。**只需要麦当劳 MCP Token，不需要地图 Key 或额外 AI API Key。**
 
-**[在线体验](https://everfu.github.io/mcfork/)**：GitHub Pages 公开版使用真实门店与菜单快照，在浏览器本地演示试算，不连接账户。实时门店查询与官方核价请在本机运行。
+**[在线体验](https://everfu.github.io/mcfork/)**：网页部署于 GitHub Pages，通过独立后端查询真实门店、当前菜单与官方整单价格；也可以手动切换快照演示。Token 只保存在后端，访问者不需要填写密钥。
 
 ![开始比较前的布局](docs/media/desktop-ready.png)
 
@@ -38,7 +38,15 @@ npm start
 
 ## GitHub Pages 部署
 
-推送到 `main` 后，[发布工作流](.github/workflows/pages.yml)会安装依赖、运行决策测试并构建网页，只发布 `dist` 目录。仓库 Pages 来源设为 GitHub Actions；部署不需要配置麦当劳 Token 或其他密钥。本机服务、环境变量文件和账户凭据不会部署到公开站点。
+推送到 `main` 后，[发布工作流](.github/workflows/pages.yml)会安装依赖、运行决策测试并构建网页，只发布 `dist` 目录。仓库 Pages 来源设为 GitHub Actions；仓库变量 `MCFORK_API_URL` 提供公开后端地址，编译为 `VITE_API_BASE_URL`。这个地址不是密钥；任何 `VITE_` 变量都不能包含 Token。本机服务、环境变量文件和账户凭据不会部署到公开站点。
+
+后端使用 [Netlify Functions](netlify/functions/api.mts)，配置见 [netlify.toml](netlify.toml)。在 Netlify 项目中将 `MCD_MCP_TOKEN` 保存为仅 Functions 范围的加密变量，`ALLOWED_WEB_ORIGIN` 设为 `https://everfu.github.io`。GitHub 环境中的 Secret 不会自动同步到 Netlify，也不会被前端读取。Netlify 项目链接状态 `.netlify/` 已加入忽略列表。
+
+每次搜索返回一小时有效、绑定门店的签名选择凭证，供独立函数实例校验；它不能替代账户 Token，也不导出到小票。后端只允许指定网页来源和白名单接口，平台按 IP 限制每分钟 60 个请求。来源限制不是用户身份认证；此公开服务仍会消耗维护者的 MCP 与托管额度。
+
+网页使用共享引擎生成候选，逐份请求 `/api/quote`，避免将整轮比较塞入一个有 60 秒限制的函数。单份核价超时、凭据失效及限流均明确报错，网络失败不会自动变成演示金额。CLI 和本机 `/api/compare` 继续使用相同引擎。未配置后端地址时，静态构建仍可单独体验快照演示。
+
+后端当前为手动发布：修改接口代码后运行 `npx netlify-cli@27.13.0 deploy --prod --site mcfork-api`，CLI 会按配置检查类型并打包函数。GitHub Pages 前端持续自动发布，后端尚未连接 Git 持续部署。线上真实调用记录见 [后端联调证据](evidence/hosted-live-verification.json)。
 
 ## 体验流程
 

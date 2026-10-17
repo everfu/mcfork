@@ -1,0 +1,103 @@
+{
+  "backend": "https://mcfork-api.netlify.app",
+  "origin": "https://everfu.github.io",
+  "queriedAt": "2026-10-17T10:32:29.533Z",
+  "storesCount": 5,
+  "store": {
+    "id": "3330387",
+    "name": "麦当劳杭州国大城市广场餐厅",
+    "address": "延安路609号B2层B234麦当劳铺位"
+  },
+  "menuCount": 109,
+  "original": {
+    "priceCents": 5090,
+    "verified": true
+  },
+  "alternatives": [
+    {
+      "title": "少改一项",
+      "priceCents": 4650,
+      "verified": true,
+      "changes": [
+        {
+          "from": "515946",
+          "to": "3010",
+          "quantity": 1
+        }
+      ]
+    },
+    {
+      "title": "多省一点",
+      "priceCents": 4600,
+      "verified": true,
+      "changes": [
+        {
+          "from": "4810",
+          "to": "1401",
+          "quantity": 1
+        },
+        {
+          "from": "515946",
+          "to": "3010",
+          "quantity": 1
+        }
+      ]
+    }
+  ],
+  "checkedCount": 7,
+  "failedCount": 0,
+  "foreignOriginRejected": true,
+  "forgedSelectionRejected": true,
+  "steps": [
+    {
+      "endpoint": "/api/config",
+      "status": 200,
+      "durationMs": 2715
+    },
+    {
+      "endpoint": "/api/stores",
+      "status": 200,
+      "durationMs": 4600
+    },
+    {
+      "endpoint": "/api/menu",
+      "status": 200,
+      "durationMs": 1189
+    },
+    {
+      "endpoint": "/api/quote",
+      "status": 200,
+      "durationMs": 1570
+    },
+    {
+      "endpoint": "/api/quote",
+      "status": 200,
+      "durationMs": 973
+    },
+    {
+      "endpoint": "/api/quote",
+      "status": 200,
+      "durationMs": 1031
+    },
+    {
+      "endpoint": "/api/quote",
+      "status": 200,
+      "durationMs": 997
+    },
+    {
+      "endpoint": "/api/quote",
+      "status": 200,
+      "durationMs": 991
+    },
+    {
+      "endpoint": "/api/quote",
+      "status": 200,
+      "durationMs": 773
+    },
+    {
+      "endpoint": "/api/quote",
+      "status": 200,
+      "durationMs": 774
+    }
+  ]
+}

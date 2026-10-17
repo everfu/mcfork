@@ -1,6 +1,6 @@
 # 麦当劳 MCP 接入说明
 
-McFork 仅连接官方 `https://mcp.mcd.cn`，使用官方 `@modelcontextprotocol/sdk` 的 `Client` 与 `StreamableHTTPClientTransport`。本机环境变量 `MCD_MCP_TOKEN` 通过 Authorization Bearer 请求头发送给该服务，不存在第二个服务 Key。
+McFork 仅连接官方 `https://mcp.mcd.cn`，使用官方 `@modelcontextprotocol/sdk` 的 `Client` 与 `StreamableHTTPClientTransport`。本机或后端环境变量 `MCD_MCP_TOKEN` 通过 Authorization Bearer 请求头发送给该服务，不存在第二个服务 Key。
 
 ## 实际工具与业务价值
 
@@ -47,3 +47,10 @@ McFork 仅连接官方 `https://mcp.mcd.cn`，使用官方 `@modelcontextprotoco
 服务仅监听 127.0.0.1，校验 Host/Origin、请求类型和输入体积，拒绝读取环境文件；日志不输出上游原始错误。Token 只由服务端发往官方 MCP，前端构建和小票导出不包含 Token。菜单与详情缓存最多五分钟。
 
 官方文档：https://github.com/M-China/mcd-mcp-server
+## 线上部署补充
+
+GitHub Pages 前端只保存公开的后端地址。Netlify Functions 从 Functions 范围的 `MCD_MCP_TOKEN` 加密环境变量读取凭据，复用 `server/service.ts` 与 `server/mcd.ts`；响应、日志与网页构建不返回 Token。公开后端只开放 config、stores、menu、detail、quote 五个应用接口，不允许调用任意 MCP 工具。
+
+门店查询响应附带一小时有效的签名选择凭证，后续菜单、详情与核价请求通过请求头提交；后端验签后恢复门店校验，避免依赖某一个函数实例的内存。前端共用 `shared/engine.ts` 并逐份请求官方核价；没有改用展示价替代官方报价。
+
+跨域仅允许 `https://everfu.github.io`，平台按 IP 限流。CORS 不构成用户认证。该部署面向公开展示，只访问已有四个只读工具；无订单、领券或账户写入。

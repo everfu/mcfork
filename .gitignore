@@ -4,4 +4,5 @@ dist/
 !.env.example
 *.local
 .DS_Store
+.netlify/
 evidence/private/

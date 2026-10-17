@@ -1,0 +1,10 @@
+[build]
+  command = "npx tsc --noEmit"
+  publish = "netlify/public"
+
+[build.environment]
+  NODE_VERSION = "24"
+
+[functions]
+  directory = "netlify/functions"
+  node_bundler = "esbuild"

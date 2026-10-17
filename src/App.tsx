@@ -10,10 +10,10 @@ import { Dialog, FoodImage, MenuPicker, StorePicker } from './Dialogs.tsx';
 import { Icon } from './icons.tsx';
 
 export function App() {
-  const [mode, setMode] = useState<Mode>('demo'), [config, setConfig] = useState<AppConfig>({ liveAvailable: false });
-  const [store, setStore] = useState<Store | undefined>(demoStores[0]), [meals, setMeals] = useState<Meal[]>(demoMeals), [cart, setCart] = useState<CartItem[]>(() => initialCart(demoMeals));
+  const [mode, setMode] = useState<Mode>(apiBase ? 'live' : 'demo'), [config, setConfig] = useState<AppConfig>({ liveAvailable: false });
+  const [store, setStore] = useState<Store | undefined>(apiBase ? undefined : demoStores[0]), [meals, setMeals] = useState<Meal[]>(apiBase ? [] : demoMeals), [cart, setCart] = useState<CartItem[]>(() => apiBase ? [] : initialCart(demoMeals));
   const [budget, setBudget] = useState('48'), [comparison, setComparison] = useState<Comparison>(), [selected, setSelected] = useState('original');
-  const [busy, setBusy] = useState(''), [error, setError] = useState(''), [toast, setToast] = useState(''), [exporting, setExporting] = useState(false);
+  const [busy, setBusy] = useState(apiBase ? 'store' : ''), [error, setError] = useState(''), [toast, setToast] = useState(''), [exporting, setExporting] = useState(false);
   const [dialog, setDialog] = useState<'stores' | 'menu' | 'help' | 'setup' | undefined>();
   const generation = useRef(0), initialized = useRef(false);
   const active = comparison ? [comparison.original, ...comparison.alternatives].find(variant => variant.id === selected) ?? comparison.original : undefined;
@@ -30,7 +30,7 @@ export function App() {
     } else void computeDemo();
   }, []);
   function connectionFailed() {
-    setMode('live'); setStore(undefined); setCart([]); setMeals([]); setComparison(undefined);
+    setMode('live'); setStore(undefined); setCart([]); setMeals([]); setComparison(undefined); setBusy('');
     setError('实时服务暂不可用。请稍后重试，或点击顶部按钮切换演示试算。');
   }
   useEffect(() => { if (!toast) return; const timer = setTimeout(() => setToast(''), 4500); return () => clearTimeout(timer); }, [toast]);

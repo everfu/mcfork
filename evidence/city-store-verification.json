@@ -1,0 +1,53 @@
+{
+  "verifiedAt": "2026-10-17T06:53:50.118Z",
+  "input": {
+    "mode": "live",
+    "city": "北京",
+    "keyword": "王府井"
+  },
+  "source": "McDonald’s MCP query-nearby-stores via local /api/stores",
+  "mode": "live",
+  "stores": [
+    {
+      "id": "1950526",
+      "name": "麦当劳北京新东安二号餐厅",
+      "address": "王府井大街138号新东安广场地下一层",
+      "opens": "08:00",
+      "closes": "22:00",
+      "suspended": false
+    },
+    {
+      "id": "1950482",
+      "name": "麦当劳北京王府井东街(澳门中心)餐厅",
+      "address": "王府井大街东街8号",
+      "opens": "07:00",
+      "closes": "22:00",
+      "suspended": false
+    },
+    {
+      "id": "1950087",
+      "name": "麦当劳北京灯市口餐厅",
+      "address": "灯市口大街33号",
+      "opens": "06:00",
+      "closes": "22:00",
+      "suspended": false
+    },
+    {
+      "id": "1950514",
+      "name": "麦当劳北京东四南大街灯市口地铁餐厅",
+      "address": "东四南大街157号",
+      "opens": "07:00",
+      "closes": "22:00",
+      "suspended": false
+    },
+    {
+      "id": "1950059",
+      "name": "麦当劳北京新王府井餐厅",
+      "address": "王府井大街200号北京工艺美术世界",
+      "opens": "06:00",
+      "closes": "22:00",
+      "suspended": false
+    }
+  ],
+  "queriedAt": "2026-10-17T06:53:50.109Z"
+}

@@ -1,0 +1,133 @@
+{
+  "verifiedAt": "2026-10-17T06:13:36.247Z",
+  "source": "https://mcp.mcd.cn",
+  "tools": [
+    "query-nearby-stores",
+    "query-meals",
+    "query-meal-detail",
+    "calculate-price"
+  ],
+  "store": {
+    "id": "3330387",
+    "name": "麦当劳杭州国大城市广场餐厅",
+    "address": "延安路609号B2层B234麦当劳铺位",
+    "opens": "07:00",
+    "closes": "22:00",
+    "suspended": false
+  },
+  "menuCount": 112,
+  "checkedCount": 7,
+  "failedCount": 0,
+  "original": {
+    "mode": "live",
+    "verified": true,
+    "priceCents": 5090,
+    "withinBudget": false,
+    "queriedAt": "2026-10-17T06:13:34.885Z",
+    "items": [
+      {
+        "productCode": "1440",
+        "name": "麦辣鸡腿汉堡",
+        "quantity": 1,
+        "subtotalCents": 2250
+      },
+      {
+        "productCode": "4810",
+        "name": "中薯条",
+        "quantity": 1,
+        "subtotalCents": 1450
+      },
+      {
+        "productCode": "515946",
+        "name": "冰浓浓黑巧中杯",
+        "quantity": 1,
+        "subtotalCents": 1390
+      }
+    ],
+    "traceId": "5b037cbea9f2a980887d58b550dc3780"
+  },
+  "alternatives": [
+    {
+      "title": "少改一项",
+      "changes": [
+        {
+          "from": "浓浓黑巧（冰/热）",
+          "to": "雪碧",
+          "quantity": 1
+        }
+      ],
+      "quote": {
+        "mode": "live",
+        "verified": true,
+        "priceCents": 4650,
+        "withinBudget": true,
+        "queriedAt": "2026-10-17T06:13:35.160Z",
+        "items": [
+          {
+            "productCode": "1440",
+            "name": "麦辣鸡腿汉堡",
+            "quantity": 1,
+            "subtotalCents": 2250
+          },
+          {
+            "productCode": "4810",
+            "name": "中薯条",
+            "quantity": 1,
+            "subtotalCents": 1450
+          },
+          {
+            "productCode": "3010",
+            "name": "雪碧小杯",
+            "quantity": 1,
+            "subtotalCents": 950
+          }
+        ],
+        "traceId": "7e1dec6c5746bcf505cbba02aa9918a0"
+      }
+    },
+    {
+      "title": "多省一点",
+      "changes": [
+        {
+          "from": "薯条",
+          "to": "麦乐鸡",
+          "quantity": 1
+        },
+        {
+          "from": "浓浓黑巧（冰/热）",
+          "to": "雪碧",
+          "quantity": 1
+        }
+      ],
+      "quote": {
+        "mode": "live",
+        "verified": true,
+        "priceCents": 4600,
+        "withinBudget": true,
+        "queriedAt": "2026-10-17T06:13:36.116Z",
+        "items": [
+          {
+            "productCode": "1440",
+            "name": "麦辣鸡腿汉堡",
+            "quantity": 1,
+            "subtotalCents": 2250
+          },
+          {
+            "productCode": "1401",
+            "name": "麦乐鸡5块",
+            "quantity": 1,
+            "subtotalCents": 1400
+          },
+          {
+            "productCode": "3010",
+            "name": "雪碧小杯",
+            "quantity": 1,
+            "subtotalCents": 950
+          }
+        ],
+        "traceId": "7b155881397dbf2db5040b9817e73068"
+      }
+    }
+  ],
+  "limitations": "One store, current default configurations only; no order creation, purchase, coupon binding, or account mutation."
+}

@@ -1,0 +1,42 @@
+{
+  "name": "mcfork",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=24"
+  },
+  "scripts": {
+    "dev": "node --env-file-if-exists=.env.local server/index.ts",
+    "build": "tsc --noEmit && vite build",
+    "start": "node --env-file-if-exists=.env.local server/index.ts --production",
+    "test": "node --test tests/*.test.ts",
+    "inspect:mcp": "node --env-file-if-exists=.env.local scripts/inspect-mcp.ts",
+    "fork": "node --env-file-if-exists=.env.local server/cli.ts",
+    "refresh:snapshot": "node --env-file-if-exists=.env.local scripts/refresh-snapshot.ts",
+    "test:browser": "npm run build && playwright test",
+    "verify:live": "node --env-file-if-exists=.env.local scripts/verify-live.ts",
+    "record:demo": "node scripts/record-demo.mjs"
+  },
+  "dependencies": {
+    "@heroui/react": "^3.2.6",
+    "@heroui/styles": "^3.2.6",
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0",
+    "zod": "^4.0.0"
+  },
+  "devDependencies": {
+    "@axe-core/playwright": "^4.14.0",
+    "@playwright/test": "^1.64.1",
+    "@tailwindcss/vite": "^4.3.3",
+    "@types/node": "^24.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "@vitejs/plugin-react": "latest",
+    "tailwindcss": "^4.3.3",
+    "typescript": "^5.9.0",
+    "vite": "latest"
+  },
+  "license": "MIT"
+}

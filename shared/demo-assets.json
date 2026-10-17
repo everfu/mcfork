@@ -1,0 +1,30 @@
+{
+  "1401": {
+    "path": "./food/1401.png",
+    "source": "https://menu-img.mcd.cn/pcm/prod/menu/20260529/product/MS_G1401_320.png"
+  },
+  "1440": {
+    "path": "./food/1440.png",
+    "source": "https://menu-img.mcd.cn/pcm/prod/menu/20260325/product/MS_1440_320.png"
+  },
+  "3010": {
+    "path": "./food/3010.png",
+    "source": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G3010_320.png"
+  },
+  "4810": {
+    "path": "./food/4810.png",
+    "source": "https://menu-img.mcd.cn/pcm/prod/menu/20250523/product/MS_G4810_320_1747877491921.png"
+  },
+  "515280": {
+    "path": "./food/515280.png",
+    "source": "https://menu-img.mcd.cn/pcm/prod/menu/ProductPool/product/MS_G515280_320.png"
+  },
+  "515946": {
+    "path": "./food/515946.gif",
+    "source": "https://menu-img.mcd.cn/pcm/prod/menu/20261008/product/MS_G515945_320.gif"
+  },
+  "520689": {
+    "path": "./food/520689.gif",
+    "source": "https://menu-img.mcd.cn/pcm/prod/menu/20250324/product/MS_G520688_320.gif"
+  }
+}

@@ -1,0 +1,10 @@
+{
+  "mode": "demo",
+  "storeId": "3330387",
+  "budgetCents": 4800,
+  "items": [
+    { "productCode": "1440", "quantity": 1, "locked": true },
+    { "productCode": "4810", "quantity": 1, "locked": false },
+    { "productCode": "515946", "quantity": 1, "locked": false }
+  ]
+}
